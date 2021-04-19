@@ -1078,8 +1078,20 @@ that the time needed to multiply two numbers depends on the size of these number
       use the expressions $m \dv 2$ and $m \;\texttt{\%}\; 2$ as these expressions can be implemented
       using bit operations.
 \item Prove that your implementation works correctly.
-      \qed
+      \eoxs
 \end{enumerate} 
+
+\exercise
+Given a natural number $n$, the \blue{integer square root} \index{integer square root} of $n$ is the largest
+number $r$ such that $r^2$ is less or equal than $n$, i.e. we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\mathtt{isqrt}(n) := \max\bigl(\{ r \in \mathbb{N} \mid r^2 \leq n \}\bigr)$.
+\begin{enumerate}[(a)]
+\item Develop a recursive algorithm that computes $\mathtt{isqrt}(n)$ in terms of $\mathtt{isqrt}(n\dv4)$.
+\item Implement this algorithm in \textsl{Python}.
+\item Prove the correctness of your implementation by computational induction. \eoxs
+\end{enumerate}
 
 \section{The Master Theorem}
 In order to analyse the complexity of  the procedure $\textsl{power}()$,
@@ -1091,7 +1103,7 @@ Instead, we can use the
 circuit the procedure for computing the complexity of an algorithm. 
 We present a simplified version of the master theorem next.
 
-\begin{Theorem}[\blue{Master Theorem}] 
+\begin{Theorem}[\blue{Master Theorem} \index{Master Theorem}] 
   Assume that 
   \begin{enumerate}[(a)]
   \item $\alpha,\beta \in \mathbb{N}$ such that  $\beta \geq 2$, $\delta \in \mathbb{R}$ such that $\delta \geq
@@ -1465,6 +1477,7 @@ growth of the function $f$.
 \item $f(n) = 4 \cdot f(n \dv 2) + n^2$.
 \item $f(n) = 3 \cdot f(n \dv 2) + n^3$.  \eox
 \end{enumerate}
+\pagebreak
 
 \exercise
 Consider the recurrence relation
@@ -1540,7 +1553,8 @@ numbers are defined inductively as follows:
 \item $F_1 := 1$, 
 \item $F_{n+2} = F_{n+1} + F_n$.
 
-      This last equation is an example of a \blue{recurrence relation}.
+  This last equation is an example of a \blue{recurrence relation}, while the first two equations are the
+  \blue{initial conditions}. 
 \end{enumerate}
 
 \begin{figure}[!h]
@@ -1573,24 +1587,26 @@ the following:
 \item $n \geq 2 \rightarrow a_n = a_{n-1} + a_{n-2} + 1$,
 
       because in the recursive calls $\texttt{fib}(n-1)$ and $\texttt{fib}(n-2)$ we have, respectively, 
-      $a_{n-1}$ and $a_{n-2}$ additions and, furthermore, the addition of the values
-      $\texttt{fib}(n-1)$ and $\texttt{fib}(n-2)$ yields the term $+1$.
+      $a_{n-1}$ and $a_{n-2}$ additions and, furthermore, the expression
+      \texttt{fib(n-1) + fib(n-2)} adds another addition.
 \end{enumerate}
 We take the equation $a_n = a_{n-1} + a_{n-2} + 1$ and substitute $i+2$ for $n$.  This yields
 \\[0.2cm]
 \hspace*{1.3cm} $a_{i+2} = a_{i+1} + a_i + 1$ \hspace*{\fill} $(1)$
 \\[0.2cm]
-This type of equation is called a \blue{linear inhomogeneous recurrence relation}.
+This type of equation is called a \blue{linear \green{inhomogeneous} recurrence relation}.  The expression $+ 1$ is
+called the \blue{inhomogeneity} of this recurrence relation.
 \index{linear inhomogeneous recurrence relation}
-The \blue{associated homogeneous recurrence relation} \index{associated homogeneous recurrence relation} is
+The \blue{associated homogeneous recurrence relation} \index{associated homogeneous recurrence relation}
+results from dropping this term in equation $(1)$ and has the form
 \\[0.2cm]
 \hspace*{1.3cm}
-$a_{i+2} = a_{i+1} + a_i$ \hspace*{\fill} $(2)$
+$a_{i+2} = a_{i+1} + a_i$. \hspace*{\fill} $(2)$
 \\[0.2cm]
 We solve this equation with the following \href{https://en.oxforddictionaries.com/definition/ansatz}{ansatz}:
 \\[0.2cm]
 \hspace*{1.3cm} $a_i = \lambda^i$. \\[0.2cm]
-Putting this ansatz in $(2)$ leads to the equation 
+Substituting this ansatz into equation $(2)$ leads to the equation 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\lambda^{i+2} = \lambda^{i+1} + \lambda^i$.
@@ -1616,7 +1632,7 @@ $\begin{array}{lrcll}
  \end{array}
  $
 \\[0.2cm]
-We note that any linear combination of the form
+We note that any \blue{linear combination} of the form
 \\[0.2cm]
 \hspace*{1.3cm}
 $a_n = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n$
@@ -1627,23 +1643,29 @@ We also note that the following identities hold for the values $\lambda_1$ and $
 \hspace*{1.3cm} 
 $\lambda_1 - \lambda_2 = \sqrt{5}$ \quad and \quad $\lambda_1 + \lambda_2 = 1$. \hspace*{\fill} (3)
 \\[0.2cm]
+These equations will be needed later.
 From the last equation it follows immediately that \\[0.2cm]
 \hspace*{1.3cm} $1 - \lambda_1 = \lambda_2$ \quad and \quad $1 - \lambda_2 = \lambda_1$. \hspace*{\fill} (4)
 \\[0.1cm]
 To solve the original recurrence equation (1) we try the ansatz
-$a_i = c$.  If we use this ansatz in equation (1), we get the equation \\[0.2cm]
+$a_i = c$, where $c$ is an unknown constant that is to be determined.  This leads us to the equation \\[0.2cm] 
 \hspace*{1.3cm}
 $c = c + c + 1$,
 \\[0.2cm]
-which has the solution $c = -1$.  We call this solution a \blue{special solution}. \index{special solution}
-This is a solution of the recurrence relation $a_{i+2} = a_{i+1} + a_i + 1$, but it does not satisfy the
-initial conditions $a_0 = 0$ and $a_1 = 1$.
+which has the solution $c = -1$.  Hence
+\\[0.2cm]
+\hspace*{1.3cm}
+$a_n = -1$ 
+\\[0.2cm]
+is a solution of the inhomogeneous recurrence relation $(1)$. We call this solution a \blue{special solution}.
+\index{special solution}  Although this is a solution of the recurrence relation $a_{i+2} = a_{i+1} + a_i + 1$,
+it does not satisfy the initial conditions $a_0 = 0$ and $a_1 = 1$.
 The \blue{general solution} \index{general solution} of the recurrence equation (1) 
 is the sum of the general solution of the homogeneous recurrence equation and the special
 solution and therefore reads 
 \[ a_i = \alpha \cdot \lambda_1^i + \beta \cdot \lambda_2^i - 1 \]
-with $\lambda_1 = \frac{1}{2}\cdot (1 + \sqrt{5})$ and $\lambda_2 = \frac{1}{2}\cdot (1 - \sqrt{5})$.
-The coefficients $\alpha$ and $\beta$ now have to be determined so that the
+where $\lambda_1 = \frac{1}{2}\cdot (1 + \sqrt{5})$ and $\lambda_2 = \frac{1}{2}\cdot (1 - \sqrt{5})$.
+The coefficients $\alpha$ and $\beta$ have to be determined so that the
 initial conditions $a_0 = 0$ and $a_1 = 0$ are met.  This leads to the following
 \blue{system of linear equations}: 
 \\[0.2cm]
@@ -1655,7 +1677,7 @@ $\begin{array}{lcl}
   $
 \\[0.2cm]
 Let's add 1 to both equations and simplify the powers $\lambda_i^0$ to $1$ for $i=1,2$ and
-$\lambda_i^1$ to $\lambda_i$, so we get:
+$\lambda_i^1$ to $\lambda_i$.  This results in the following system of linear equations:
 \\[0.2cm]
 \hspace*{1.3cm}
 $ \begin{array}{lcl}
@@ -1664,7 +1686,11 @@ $ \begin{array}{lcl}
   \end{array}
 $
 \\[0.2cm]
-The first of these two equations yields the equation $\alpha = 1 - \beta$.  
+The first of these two equations yields
+\\[0.2cm]
+\hspace*{1.3cm}
+$\alpha = 1 - \beta$.
+\\[0.2cm]
 If we insert this value of $\alpha$  into the second equation, we get 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1680,23 +1706,39 @@ $
 \\[0.2cm]
 Because of $\alpha = 1 - \beta$ we find  \\[0.2cm]
 \hspace*{1.3cm} $\alpha = - \bruch{1 - \lambda_2}{\lambda_2 - \lambda_1}$. \\[0.2cm]
-If we use the equations (3) and (4) next, we arrive at \\[0.2cm]
+If we use the equations $\lambda_1 - \lambda_2 = \sqrt{5}$ and $\lambda_1 + \lambda_2 = 1$ next, we arrive at
+\\[0.2cm]
 \hspace*{1.3cm} 
-$\alpha = \bruch{\lambda_1}{\sqrt{5}} $ \quad and \quad $\beta = -\bruch{\lambda_2}{\sqrt{5}}$. \\[0.2cm]
-Therefore the solution of our recurrence relation is: \\[0.2cm]
-\hspace*{1.3cm} 
-$\ds a_i = \bruch{1}{\sqrt{5}} \cdot \left( \lambda_1^{i+1} - \lambda_2^{i+1} \right) - 1$. \\[0.2cm]
+$\alpha = \bruch{\lambda_1}{\sqrt{5}} $.
+\\[0.2cm]
+As we have
+\\[0.2cm]
+\hspace*{1.3cm}
+$\beta =  \bruch{1 - \lambda_1}{\lambda_2 - \lambda_1}$
+\\[0.2cm]
+we conclude that
+\\[0.2cm]
+\hspace*{1.3cm}
+$\beta = -\bruch{\lambda_2}{\sqrt{5}}$. 
+\\[0.2cm]
+Therefore the \blue{solution} of our recurrence relation is: \\[0.2cm]
+\hspace*{1.3cm}
+  \colorbox{red}{\framebox{\colorbox{orange}{
+        $\ds a_i = \bruch{1}{\sqrt{5}} \cdot \left( \lambda_1^{i+1} - \lambda_2^{i+1} \right) - 1$ \quad
+        \mbox{for all $i\in\mathbb{N}$.}
+  }}}
+\\[0.2cm]
 Because of $\lambda_1\approx 1.61803$ and $\lambda_2 \approx - 0.61803$ the first term
-of the sum dominates the second term and the number of additions increases exponentially with the factor $\lambda_1$.
+of this sum dominates the second term and the number of additions increases exponentially with the factor $\lambda_1$.
 This explains the strong increase in computing time.
 \vspace*{0.3cm}
 
 \remark 
 The number $\lambda_1$ is also called the \href{https://en.wikipedia.org/wiki/Golden_ratio}{golden ratio} 
-and plays an important role in geometry, art, alchemy, and the dark arts. \eox
+and plays an important role in geometry, art, alchemy, and even the dark arts. \eox
 
 In the remainder of this section we will define the notion of a \blue{linear inhomogeneous recurrence relation}
-of the second order and describe a general method to solve this kind of recurrence equations.
+of the second order and describe a general method for solve this kind of recurrence equations.
 
 \begin{Definition}[Second Order Linear Inhomogeneous Recurrence Relation] \hspace*{\fill} \\
   A \blue{second order linear inhomogeneous recurrence relation}
@@ -1707,8 +1749,8 @@ of the second order and describe a general method to solve this kind of recurren
   $x_{n+2} = a \cdot x_{n+1} + b \cdot x_n + c$ \quad and \quad $x_0 = d$, $x_1 = e$
   \quad where $a, b, c, d, e \in \mathbb{Z}$.
   \\[0.2cm]
-  Here, $x_0 = d$, $x_1 = e$ are the \blue{initial values}.  Together with the initial values, the recurrence
-  relation defines a sequence $(x_n)_{n\in\mathbb{N}}$.  \eox
+  Here, $x_0 = d$, $x_1 = e$ are the \blue{initial conditions}.\index{initial conditions}  Taken together, the recurrence
+  relation and the initial conditions define a sequence $(x_n)_{n\in\mathbb{N}}$.  \eox
 \end{Definition}
 
 \noindent
@@ -1749,66 +1791,136 @@ The method to \blue{solve} a second order linear inhomogeneous recurrence relati
       \blue{degenerated case}\index{degenerated case, recurrence relation}.
       This happens when $4 \cdot b + a^2 = 0$.  We will deal with the degenerated case later.  In the
       following, we assume that $\lambda_1 \not= \lambda_2$.
-\item We compute a \blue{special solution} to the inhomogeneous recurrence relation
+\item In order to compute a \blue{special solution} \index{special solution} to the inhomogeneous recurrence relation
       \\[0.2cm]
       \hspace*{1.3cm}
       $x_{n+2} = a \cdot x_{n+1} + b \cdot x_n + c$
       \\[0.2cm]
-      using the \blue{ansatz} $x_n = \gamma$.  Substituting this ansatz into the inhomogeneous recurrence
-      relation leads to the equation
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\gamma = a \cdot \gamma + b \cdot \gamma + c$,
-      \\[0.2cm]
-      which is equivalent to the equation
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $(1 - a - b) \cdot \gamma = c$.
-      \\[0.2cm]
-      Therefore, we find $\gamma$ as
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\ds \gamma = \frac{c}{1 - a - b}$.
-      \\[0.2cm]
-      If we are lucky\footnote{
-        If we are not lucky, we have to use the ansatz $x_n = \gamma \cdot n$ instead.
-      },
-      $a + b \not= 1$ and we have found $\gamma$.
-\item Now the \blue{general solution} of the inhomogeneous recurrence relation is given as follows:
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $x_n = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
-      \\[0.2cm]
-      We have to find $\alpha$ and $\beta$ so that we get the initial values $x_0 = d$ and $x_1 = e$ right.
-      This leads to the following system of linear equations:
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $d = \alpha + \beta + \gamma$ \quad and \quad $e = \alpha \cdot \lambda_1 + \beta \cdot \lambda_2 + \gamma$.
-      \\[0.2cm]
-      These are two linear equations for $\alpha$ and $\beta$.  Once we have solved these equations for $\alpha$ and
-      $\beta$, the solution of the recurrence relation is
-      \\[0.2cm]
-      \hspace*{1.3cm}
-      $\ds x_{n} = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
+      we have to make a case distinction.
+      \begin{enumerate}
+      \item $a + b \not= 1$.
+
+            In this case we can use the \blue{ansatz} $x_n = \gamma$.  Substituting this ansatz into the
+            inhomogeneous recurrence relation leads to the equation
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\gamma = a \cdot \gamma + b \cdot \gamma + c$,
+            \\[0.2cm]
+            which is equivalent to the equation
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $(1 - a - b) \cdot \gamma = c$.
+            \\[0.2cm]
+            Therefore we have
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds \gamma = \frac{c}{1 - a - b}$
+            \\[0.2cm]
+            and the special solution is
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds \gamma = \frac{c}{1 - a - b}$.
+            \\[0.2cm]
+            Now the \blue{general solution} of the inhomogeneous recurrence relation is given as follows:
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $x_n = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
+            \\[0.2cm]
+            We have to find $\alpha$ and $\beta$ so that we get the initial values $x_0 = d$ and $x_1 = e$ right.
+            This leads to the following system of linear equations:
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $d = \alpha + \beta + \gamma$ \quad and \quad $e = \alpha \cdot \lambda_1 + \beta \cdot \lambda_2 + \gamma$.
+            \\[0.2cm]
+            These are two linear equations for $\alpha$ and $\beta$.  Once we have solved these equations for $\alpha$ and
+            $\beta$, the solution of the recurrence relation is
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds x_{n} = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma$.
+      \item $a + b = 1$.
+
+            In this case, the ansatz $x_n = \gamma$ does not work.  Instead, we have to use the ansatz
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $x_n = \gamma \cdot n$.           
+            \\[0.2cm]
+            This leads to the equation
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\gamma \cdot (n+2) = a \cdot \gamma \cdot (n+1) + b \cdot \gamma \cdot n + c$.
+            \\[0.2cm]
+            As $a + b = 1$, this equation can be rearranged into the equation
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $2 \cdot \gamma = a \cdot \gamma + c$.
+            \\[0.2cm]
+            Therefore we have 
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds \gamma = \frac{c}{2 - a}$.
+            \\[0.2cm]
+            In this case the special solution is
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds x_n = \frac{c}{2 - a} \cdot n$.
+            \\[0.2cm]
+            Now the \blue{general solution} of the inhomogeneous recurrence relation is given as follows:
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $x_n = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma \cdot n$.
+            \\[0.2cm]
+            We have to find $\alpha$ and $\beta$ so that we get the initial values $x_0 = d$ and $x_1 = e$ right.
+            This leads to the following system of linear equations:
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $d = \alpha + \beta$ \quad and \quad $e = \alpha \cdot \lambda_1 + \beta \cdot \lambda_2 + \gamma$.
+            \\[0.2cm]
+            Again, these are two linear equations for $\alpha$ and $\beta$.  Once we have solved these equations for $\alpha$ and
+            $\beta$, the solution of the recurrence relation is
+            \\[0.2cm]
+            \hspace*{1.3cm}
+            $\ds x_{n} = \alpha \cdot \lambda_1^n + \beta \cdot \lambda_2^n + \gamma \cdot n$.
+      \end{enumerate}
 \end{enumerate}
-If $\lambda_1 = \lambda_2 =: \lambda$ the third step of the procedure is changed as then the \blue{general solution} of
-the inhomogeneous recurrence relation is given as 
+If $\lambda_1 = \lambda_2 =: \lambda$  the procedure given above is changed as then the \blue{general solution} of
+the inhomogeneous recurrence relation is given as either
 \\[0.2cm]
 \hspace*{1.3cm}
-$x_n = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
+$x_n = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$ \quad if $a + b \not= 1$
+\\[0.2cm]
+or
+\\[0.2cm]
+\hspace*{1.3cm}
+$x_n = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma \cdot n$ \quad if $a + b = 1$.
 \\[0.2cm]
 We have to find $\alpha$ and $\beta$ so that we get the initial values $x_0 = d$ and $x_1 = e$ right.
-This leads to the following system of linear equations:
-\\[0.2cm]
-\hspace*{1.3cm}
-$d = \alpha + \gamma$ \quad and \quad $e = \alpha \cdot \lambda + \beta \cdot \lambda + \gamma$.
-\\[0.2cm]
-These are again two linear equations for $\alpha$ and $\beta$.  Once we have solved these equations for $\alpha$ and
-$\beta$, the solution of the recurrence relation is now given as
-\\[0.2cm]
-\hspace*{1.3cm}
-$\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
-
+Again, we need a case distinction:
+\begin{enumerate}[(a)]
+\item $a + b \not = 1$.
+  
+      In this case we have the following system of linear equations:
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $d = \alpha + \gamma$ \quad and \quad $e = \alpha \cdot \lambda + \beta \cdot \lambda + \gamma$.
+      \\[0.2cm]
+      These are again two linear equations for $\alpha$ and $\beta$.  
+      Once we have solved these equations for $\alpha$ and
+      $\beta$, the solution of the recurrence relation is now given as
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma$.
+\item $a + b = 1$
+      
+      Now the system of linear equations is 
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $d = \alpha$ \quad and \quad $e = \alpha \cdot \lambda + \beta \cdot \lambda + \gamma$. 
+      \\[0.2cm]
+      Solving this system of equations for $\alpha$ and $\beta$ shows that
+      \\[0.2cm]
+      \hspace*{1.3cm}
+      $\ds x_{n} = \alpha \cdot \lambda^n + \beta \cdot n \cdot \lambda^n + \gamma \cdot n$. \qed
+\end{enumerate}
 
 \exercise
  Solve the following second order recurrence relations:
@@ -1846,6 +1958,11 @@ introduced in this chapter.
 \item Describe the method to solve linear recurrence relations!
 \item Which special cases might occur when solving a linear recurrence relation?
 \end{enumerate}
+
+\section{Check Your Understanding}
+If you were able solve the previous exercise, then you should have mastered the concepts
+introduced in this chapter.
+
 
 %%% Local Variables: 
 %%% mode: latex
