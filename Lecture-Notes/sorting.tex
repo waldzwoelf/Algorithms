@@ -975,19 +975,22 @@ While merge sort splits the list $L$ that is to be sorted into two parts of roug
 \blue{3-way merge sort} splits the list $L$ into three parts of roughly the same size.
 \begin{enumerate}[(a)]
 \item Analyse the computational complexity of 3-way merge sort in the same way as we have analysed the
-      complexity of merge sort in this section.
-\item Develop an iterative implementation of 3-way merge sort and compare its computation time with the 
-      implementation time needed by the conventional version of merge sort.
+      complexity of merge sort in this section.  To this end you should write down conditional equations
+      describing 3-way merge sort in a similar fashion as it has been done at the beginning of this
+      section for merge sort.
+\item Develop an array-based implementation of 3-way merge sort and compare its computation time with the 
+      time needed by the conventional version of merge sort.  It is easiest if you start your implementation
+      by copying the Jupyter notebook \href{https://github.com/karlstroetmann/Algorithms/blob/master/Python/Chapter-04/Merge-Sort-Array.ipynb}{Merge-Sort-Array.ipynb}.
       \eox
 \end{enumerate}
 
 \section{Quicksort}
-In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} published the
+In 1961, \href{http://en.wikipedia.org/wiki/Tony_Hoare}{C.A.R.~Hoare} \index{Hoare, Charles Antony Richard} published the
 \href{http://en.wikipedia.org/wiki/Quicksort}{quicksort} algorithm \cite{hoare:61}.  The basic idea is as follows:
 \begin{enumerate}
 \item If the list $\mathtt{L}$ that is to be sorted is empty, we return $\mathtt{L}$: 
       \\[0.2cm]
-      \hspace*{1.3cm} $\mathtt{sort}([]) = []$.
+      \hspace*{1.3cm} $\mathtt{sort}\bigl([]\bigr) = []$.
 \item Otherwise, we have $\mathtt{L} = [\mathtt{x}] + \mathtt{R}$.  In this case, we split $\mathtt{R}$ into two lists $\mathtt{S}$ and $\mathtt{B}$.
       The list $\mathtt{S}$ (the letter $\mathtt{S}$ stands for \underline{s}mall) contains all those elements of $\mathtt{R}$ that are less
       or equal than $\mathtt{x}$,     while $\mathtt{B}$ (the letter $\mathtt{B}$ stands for \underline{b}ig) contains
@@ -1107,7 +1110,7 @@ comparisons to sort the lists $\mathtt{S}$ and $\mathtt{B}$ recursively.  If we 
  recurrence relation for $d_{n+1}$: 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n (d_i + d_{n-i}) $ \hspace*{\fill} (1) 
+$\ds d_{n+1} = n + \frac{1}{n+1} \cdot \sum\limits_{i=0}^n \bigl(d_i + d_{n-i}\bigr) $ \hspace*{\fill} (1) 
 \\[0.2cm] 
 Here, the term $n$ accounts for the number of comparisons needed to partition the list $\mathtt{R}$.
 In order to simplify the recurrence relation (1) we note that
@@ -1208,7 +1211,8 @@ Substituting $n \mapsto n-1$ simplifies this equation:
 \hspace*{1.3cm}
 $\ds a_{n} = a_{n-1} - \frac{2}{n} + \frac{4}{n+1}$,
 \\[0.2cm] 
-This is a telescoping recurrence equation.  Since $a_0 = \ds\frac{d_0}{1} = 0$
+This is a \blue{telescoping} recurrence equation. \index{telescoping recurrence equation}
+Since $a_0 = \ds\frac{d_0}{1} = 0$
 we have
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -1233,16 +1237,16 @@ In order to finalize our computation we have to compute an approximation for the
 $H_n = \ds\sum\limits_{i=1}^{n}\frac{1}{\,i\,}$.
 \\[0.2cm] 
 The number $H_n$ is known in mathematics as the $n$-th 
-\href{http://en.wikipedia.org/wiki/Harmonic_number}{harmonic number}.
-\href{http://en.wikipedia.org/wiki/Leonhard_Euler}{Leonhard Euler} (1707 -- 1783) was able to prove
-that the harmonic numbers can be approximated as
+\href{http://en.wikipedia.org/wiki/Harmonic_number}{harmonic number}. \index{harmonic number, $H_n$}
+\href{http://en.wikipedia.org/wiki/Leonhard_Euler}{Leonhard Euler} (1707 -- 1783) \index{Euler, Leonhard}
+was able to prove that the harmonic numbers can be approximated as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\ds H_n = \ln(n) + \gamma + \Oh\Bigl(\frac{1}{\,n\,}\Bigr)$. 
+$\ds H_n = \ln(n) + \gamma + \Oh\biggl(\frac{1}{\,n\,}\biggr)$. 
 \\[0.2cm] 
 In the formula approximating the harmonic number $H_n$, $\gamma$ is the
-\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} constant and has the 
-value
+\href{http://en.wikipedia.org/wiki/Euler-Mascheroni_constant}{Euler-Mascheroni} \index{Euler-Mascheroni constant}
+constant and has the value
 \\[0.2cm]
 \hspace*{1.3cm}
 $\gamma = 0.5772156649 \cdots$.
@@ -1272,7 +1276,7 @@ comparisons and hence on average \blue{quicksort} needs  $2 \cdot \ln(2) \approx
 
 \subsection{Implementing Quicksort for Arrays}
 Next, we show how \blue{quicksort}  is implemented using arrays instead of lists.  We are following the scheme
-of Nico Lomuto \cite{cormen:09}.
+of Nico Lomuto \cite{cormen:09} \index{Lomuto, Nico}.
 Figure \ref{fig:quick-sort-array.stlx} on page \pageref{fig:quick-sort-array.stlx} shows this implementation. 
 
 \begin{figure}[!ht]
@@ -1396,8 +1400,11 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 \item Instead of taking the first element as the pivot element, use three elements from the list
       $\mathtt{L}$ that is to be sorted.  For example, take the first element, the last element, and an
       element from the middle of the list.  Now compare these three elements and take that element as
-      a pivot that is the \blue{median} of the three elements. 
-
+      a pivot that is the \blue{median} of these elements,  where the \blue{median} \index{median} of three
+      elements is defined as the element that lies between the minimum and the maximum of these elements.
+      In general, the \blue{median} of a list $L$ of length $2 \cdot n +1$ is defined as the element $x$ such that at
+      least $n$ elements of $L$ are less or equal to $x$ and at least $n$ elements are bigger or equal than $x$.
+      
       The advantage of this strategy is that the worst case performance is much less likely to occur.  In
       particular,  using this strategy the worst case won't occur for a list that is already
       sorted.
@@ -1440,7 +1447,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
       \item The third part contains those elements that are bigger than $p_2$.
       \end{enumerate}
       Figure \ref{fig:dual-pivot-quick-sort.stlx} on page \pageref{fig:dual-pivot-quick-sort.stlx}
-      shows a simple list based implementation of \blue{dual pivot quicksort}.
+      shows a simple list-based implementation of \blue{dual pivot quicksort}.
 
       Various studies have shown that, on average, \blue{dual pivot quicksort} is faster than any other sorting
       algorithm.  For this reason, the version 1.7 of \textsl{Java} uses \blue{dual pivot quicksort}:
@@ -1463,7 +1470,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
     def sort(L):
         if len(L) <= 1:
             return L
-        x, y, R    = L[0], L[1], L[2:]
+        x, y, *R   = L
         p1, p2     = min(x, y), max(x,y)
         L1, L2, L3 = partition(p1, p2, R)
         return sort(L1) + [p1] + sort(L2) + [p2] + sort(L3)
@@ -1471,7 +1478,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
     def partition(p1, p2, L):
         if L == []:
             return [], [], []
-        x, R       = L[0], L[1:]
+        x, *R      = L
         R1, R2, R3 = partition(p1, p2, R)
         if x < p1:
             return [x] + R1, R2, R3
@@ -1486,7 +1493,7 @@ There are a number of tricks that can be used to increase the efficiency of \blu
 \end{figure}
 
 \exercise
-Implement a version of \blue{dual pivot quicksort} that uses arrays instead of lists.
+Implement a version of \blue{dual pivot quicksort} that is array-based instead of list-based.
 \eoxs
 \pagebreak
 
@@ -1510,8 +1517,8 @@ $L = [a_1, a_2]$.
 \\[0.2cm]
 In order to sort this list, one comparison is sufficient:
 \begin{enumerate}
- \item If $a_1 < a_2$ then $[a_1, a_2]$ is sorted ascendingly.
- \item If $a_2 < a_1$ then $[a_2, a_1]$ is sorted ascendingly.
+ \item If $a_1 < a_2$, then the list $[a_1, a_2]$ is sorted ascendingly.
+ \item If $a_2 < a_1$, then the list $[a_2, a_1]$ is sorted ascendingly.
 \end{enumerate}
 If the list $L$ that is to be sorted has the form
 \\[0.2cm]
@@ -1529,13 +1536,17 @@ $[a_3,a_1,a_2]$, \quad
 $[a_3,a_2,a_1]$. 
 \\[0.2cm]
 Therefore, we need at least three comparisons, since with two comparisons we could at most choose between
-four different possibilities.  In general, there are 
+four different possibilities.  Next, we generalize this observation.
+
+\begin{Theorem}
+Given a list $L$ of $n$ different elements, there are 
 \\[0.2cm]
 \hspace*{1.3cm}
 $\ds n! = 1 \cdot 2 \cdot 3 \cdot {\dots} \cdot (n-1) \cdot n = \prod\limits_{i=1}^n i$ 
 \\[0.2cm]
-different permutations of a list of $n$ different elements. 
-We prove this claim by induction. 
+different permutations of $L$. 
+\end{Theorem}
+\proof The claim is proven by induction on $n$. 
 \begin{enumerate}
 \item[B.C.:] $n=1$:  
 
@@ -1547,16 +1558,16 @@ We prove this claim by induction.
       are $n+1$ possibilities for the first element.  In each of these cases the induction
       hypothesis tells us that there are $n!$ ways to arrange the remaining $n$ elements in a list.
       Therefore, all in all there are $(n+1) \cdot n! = (n+1)!$ different arrangements of $n+1$
-      elements in a list.
+      elements in a list. \qed
 \end{enumerate}
 Next, we consider how many different cases can be distinguished if we have $k$ different tests
-that only give yes or no answers.  Tests of this kind are called \blue{binary tests}.
+that only give $\mathtt{True}$ or $\mathtt{False}$ answers.  Tests of this kind are called \blue{binary tests}.
 \begin{enumerate}
 \item If we restrict ourselves to binary tests, then one test can only distinguish between two cases.
-\item If we have $2$ tests, then we can distinguish between  $2^2$ different cases.
-\item In general, $k$ tests can choose from at most $2^k$ different cases.
+\item If we have $2$ tests, then we can distinguish between  $2 \cdot 2 = 2^2$ different cases.
+\item In general, an easy induction shows that $k$ tests can choose from at most $2^k$ different cases.
 \end{enumerate}
-The last claim can be argued as follows:  If the results of the tests are represented as
+The last claim can also be argued as follows:  If the results of the tests are represented as
 $0$ and $1$, then $k$ binary tests correspond to a binary string of length
 $k$.  However, binary strings of length $k$ can be used to code the numbers from $0$ up to
 $2^{k}-1$.  We have
@@ -1568,7 +1579,7 @@ Hence there are $2^k$ binary strings of length $k$.
 
 If we have a list of $n$ different elements, then there are $n!$ different permutations of these
 elements.  In order to figure out which of these $n!$ different permutations is given we have to
-perform $k$ comparisons where we must have
+perform $k$ comparisons, where we must have
 \\[0.2cm]
 \hspace*{1.3cm}
 $2^k \geq n!$.
@@ -1578,19 +1589,55 @@ This immediately implies
 \hspace*{1.3cm}
 $k \geq \log_2(n!)$.
 \\[0.2cm]
-In order to proceed, we need an approximation for the expression $\log_2(n!)$.  
-A \href{http://en.wikipedia.org/wiki/Stirling's_approximation}{simple approximation} of this term is
+In order to proceed, we need a lower bound for the expression $\log_2(n!)$.
+First, we have
 \\[0.2cm]
 \hspace*{1.3cm}
-$\log_2(n!) = n \cdot \log_2(n) + \Theta(n)$.
+$\ds \log_2(n!) = \log_2\left(\prod\limits_{i=1}^n i\right) = \sum\limits_{i=1}^n \log_2(i)$
 \\[0.2cm]
-Using this approximation we get
+The crucial idea is to interpret this sum as an upper \href{https://en.wikipedia.org/wiki/Riemann_sum}{Riemann sum}
+of the integral
 \\[0.2cm]
 \hspace*{1.3cm}
-$k \geq n \cdot \log_2(n) + \Theta(n)$.
+$\ds\int_1^n\log_2(x)\, \mathrm{d}x$
+\\[0.2cm]
+as is shown in Figure \ref{fig:riemann-sum.pdf}\footnote{
+  I have created this figure using the highly recommended tool \href{https://www.geogebra.org/m/h4P4cjsT}{geogebra}.
+}.
+
+\begin{figure}[!ht]
+  \centering
+  \framebox{\epsfig{file=Abbildungen/riemann-sum.pdf, scale=0.45}} 
+  \caption{The upper sum for the integral $\ds\int\limits_{1}^{10}\log_2(x) \,\mathrm{d}x$.}
+  \label{fig:riemann-sum.pdf}
+\end{figure}
+
+Therefore we have the following chain of inequations:
+\\[0.2cm]
+\hspace*{1.3cm}
+$
+\begin{array}[t]{lcl}
+  k & \geq & \ds\log_2(n!) \\[0.2cm]
+    & =    & \ds\sum\limits_{i=1}^n \log_2(i) \\[0.5cm]
+    & \geq & \ds\int\limits_{1}^n \log_2(x)\, \mathrm{d}x \\[0.2cm]
+    & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \int\limits_{1}^n \ln(x)\, \mathrm{d}x  \\[0.2cm]
+    & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \bigl[x \cdot \ln(x) - x \bigr]_{1}^n   \\[0.4cm]
+    & =    & \ds\frac{1}{\,\ln(2)\,} \cdot \bigl(n \cdot \ln(n) - n + 1\bigr)     \\[0.2cm]
+    & =    & \ds n \cdot \log_2(n) - \frac{\,n-1\,}{\,\ln(2)\,}                       
+\end{array}
+$ 
+\\[0.2cm]
+This show that
+\\[0.2cm]
+\hspace*{1.3cm}
+$k \geq n \cdot \ds\log_2(n) - \frac{n}{\,\ln(2)\,}$.
 \\[0.2cm]
 As \blue{merge sort} is able to sort a list of length $n$ using only $n \cdot \log_2(n)$ comparisons
-we have shown that this algorithm is optimal with respect to the number of comparisons.
+we have shown that this algorithm is optimal with respect to the number of comparisons within a linear bound of
+size $(n-1)/\ln(2)$.
+
+
+
 
 \section{Counting Sort}
 \index{counting sort}
@@ -1766,28 +1813,24 @@ counting sort.  We proceed to discuss this algorithm line by line.
                   xleftmargin   = 0.8cm,
                   xrightmargin  = 0.8cm,
                 ]{python3}
-    def countingSort(Names, Grades):
-        assert len(Names) == len(Grades)
-        maxGrade     = 256
-        Counts       =    [0] * maxGrade
-        Indices      = [None] * maxGrade
-        SortedNames  = [None] * len(Names)
-        SortedGrades = [None] * len(Names)
+    def countingSort(Students):
+        maxGrade =    256
+        Counts   =    [0] * maxGrade
+        Index    = [None] * maxGrade
+        Sorted   = [None] * len(Students)
         # Phase 1: Counting
-        for g in Grades:
-            Counts[g] += 1
+        for _name, grade in Students:
+            Counts[grade] += 1
         # Phase 2: Indexing
-        Indices[0] = 0
-        for g in range(1, maxGrade):
-            Indices[g] = Indices[g-1] + Counts[g-1]
+        Index[0] = 0
+        for grade in range(1, maxGrade+1):
+            Index[grade] = Index[grade-1] + Counts[grade-1]
         # Phase 3: Distribution
-        for i in range(len(Names)):
-            grade             = Grades [i]
-            idx               = Indices[grade]
-            SortedNames [idx] = Names  [i]
-            SortedGrades[idx] = Grades [i]
-            Indices[grade]   += 1
-        return SortedNames, SortedGrades
+        for name, grade in Students:
+            idx           = Index[grade]
+            Sorted[idx]   = (name, grade)
+            Index[grade] += 1
+        return Sorted
 \end{minted}
 \vspace*{-0.3cm}
 \caption{An implementation of \blue{counting sort}.}
@@ -1795,64 +1838,57 @@ counting sort.  We proceed to discuss this algorithm line by line.
 \end{figure}
 
 \begin{enumerate}
-\item The procedure \texttt{countingSort} receives two parameters:
+\item The procedure \texttt{countingSort} receives one argument.  The list $\texttt{Students}$
+      is a list of pairs of the form $\texttt{(name, grade)}$ where
       \begin{enumerate}
-      \item \texttt{Names} is a list of the student names that is sorted alphabetically.
-      \item \texttt{Grades} is a list of the grades attached to the students.
+      \item \texttt{name}  is the name of a student, while
+      \item \texttt{grade} is the grade that this student has achieved.
       \end{enumerate}
-      Of course, these lists are required to have the same number of elements.  This is checked in the
-      \texttt{assert} statement in line 2.  Furthermore, the nature of the elements of the list \texttt{Names}
-      is unimportant.  While in our example \texttt{Names} is indeed a list of student names, the elements of
-      this list can really be anything.  The only important aspect is that we will sort this list according to
-      the numbers given in the second list \texttt{Grades}.
+      The list $\texttt{Students}$ is sorted alphabetically w.r.t.~the names of the students.
+      The purpose of the function \texttt{countingSort} is to sort this list w.r.t.~the grades of the students.
+      Sublists of students with the same grade should still be sorted alphabetically w.r.t.~the names.
 \item In order for our function to generalize to arbitrary numbers we will assume that all grades are elements
-      of the set $\{0,\cdots,255\}$.  Therefore we define $\mathtt{maxGrade}$ as $256$.
-      Of course, in the example discussed so far we know that the biggest
+      of the set $\{0,\cdots,255\}$.  Therefore we define $\mathtt{maxGrade}$ as $255$.
+      Of course, in the example discussed so far we know that the largest
       grade is $5$.  However, we will use the function $\mathtt{countingSort}$ later as an auxiliary function
       when implementing \blue{radix sort}.  Then the grades will be bytes and hence be natural numbers less
-      than $256$.
-\item Next, we initialize the auxiliary array \texttt{Count} to be an array of length \texttt{maxGrade}.
+      or equal than $255$.
+\item Next, we initialize the auxiliary array \texttt{Count} to be an array of length $\texttt{maxGrade}+1$.
       Later, for a grade $g$ the number $\texttt{Counts}[g]$ will contain the number of students that have
       attained the grade $g$.  Initially, all entries of the array \texttt{Count} are set to $0$.
-\item After the indexing stage, the array \texttt{Indices} will contain the start indices of the different sublists.
-      For a grade $g$, $\texttt{Indices}[g]$ is the first index of the sublist containing those students that
+\item After the indexing stage, the array \texttt{Index} will contain the start indices of the different sublists.
+      For a grade $g$, $\texttt{Index}[g]$ is the first index of the sublist containing those students that
       have achieved the grade $g$.
-\item The array \texttt{SortedNames} and \texttt{SortedGrades} are the two lists that will be returned as the
-      result.  \texttt{SortedNames} will contain the names of the students sorted by their grades, while
-      \texttt{SortedGrades} will contain the corresponding grades. 
-\item The \texttt{for}-loop in line 9 performs the \blue{counting stage}.  We iterate over all grades $g$ in
-      \texttt{Grades} and increment the counter $\texttt{Counts}[g]$ associated with the grade $g$.
-\item Next, the index for the start of the sublist containing those students that have achieved the grade $1$
+\item The list \texttt{Sorted} is the list that will be returned as the result.
+      This list will contain pairs of the form \texttt{(name, grade)} where \texttt{name} is the name of a student
+      and \texttt{grade} is the grade of this student.
+\item The \texttt{for}-loop in line 7--8 performs the \blue{counting stage}.  We iterate over all grades
+      in the list \texttt{Students} and increment the counter $\texttt{Counts}[\mathtt{grade}]$ that is associated with the given grade.
+\item Next, the index for the start of the sublist containing those students that have achieved the grade $0$
       is initialized as $0$ in line 10. 
-\item Then, the \texttt{for}-loop in line 12 performs the \blue{indexing stage}. As the number $\texttt{Indices}[g-1]$
-      is the index of the start of the sublist for those students that have grade $g-1$ and the number of these
-      students is $\texttt{Counts}[g-1]$, the sublist of the students with grade $g$ has to start at index
+\item Then, the \texttt{for}-loop in line 11-12 performs the \blue{indexing stage}. As the number
+      $\texttt{Index}[\mathtt{grade}-1]$ is the index of the start of the sublist for those students that have
+      achieved the grade  $\mathtt{grade}-1$ and the number of these
+      students is $\texttt{Counts}[\mathtt{grade}-1]$, the sublist of the students with grade $\mathtt{grade}$ has to start at index
       \\[0.2cm]
       \hspace*{1.3cm}
-      $\texttt{Indices}[g-1] + \texttt{Counts}[g-1]$.
-\item Finally, the \texttt{for}-loop in line 16 performs the \blue{distribution stage}.
+      $\texttt{Index}[\mathtt{grade}-1] + \texttt{Counts}[\mathtt{grade}-1]$.
+\item Finally, the \texttt{for}-loop in line 14--17 performs the \blue{distribution stage}.
       \begin{enumerate}
-      \item Conceptually, the \texttt{for}-loop iterates over all students. The index $i$ refers to the $i$-th
-            student in the original list.  However, note that the first student has index $0$, since
-            \textsl{Python} starts indexing with $0$.
-      \item Next, we need to find where to put the $i$-th student.  To this end we first look up the
-            grade $\texttt{Grades}[i]$ of this student.  Then, $\texttt{Indices}[g]$ gives us
-            the \texttt{index} of the next free entry in the result list \texttt{SortedNames} corresponding to grade $g$.
-      \item In line 19 and 20 the student and her grade are stored in the result lists \texttt{SortedNames}
-            and \texttt{SortedGrades} at the index $\texttt{idx}$.
-      \item Finally, we need to increment the index stored at $\texttt{Indices}[g]$ since we have just used
-            this index and therefore the next student with the grade $g$ needs to be stored at the subsequent location.
-            This is done in line 21.
-      \end{enumerate}
-\item The procedure \texttt{countingSort} returns a pair of lists.
-      \begin{enumerate}
-      \item The first list is the list of students sorted with respect to their grades.
-      \item The second list is the list of the corresponding grades.
+      \item The \texttt{for}-loop iterates over all students. 
+      \item We need to find where to put a student with grade \texttt{grade}.
+            $\texttt{Index}[\mathtt{grade}]$ gives us the \texttt{index} of the next free entry in the
+            result list \texttt{Sorted} corresponding for this grade.
+      \item In line 16 the students name and her grade are stored in the result lists \texttt{Sorted}
+            at the index $\texttt{idx}$.
+      \item Finally, we need to increment the index stored at $\texttt{Index}[\mathtt{grade}]$ since we have
+            just used this index and therefore the next student with the same grade needs to be
+            stored at the subsequent location.  This is done in line 17.
       \end{enumerate}
 \end{enumerate}
-If the list \texttt{Names} has a length of $n$, then it is easy to
-see that counting sort has the complexity $\Oh(n)$.  The first \texttt{for}-loop iterates over all grades so
-its body is executed $n$ times.  The second for loop iterates 256 times and the last \texttt{for}-loop again
+If the list \texttt{Students} has a length of $n$, then it is easy to
+see that counting sort has the complexity $\Oh(n)$.  The first \texttt{for}-loop iterates over the list \texttt{Students} so
+its body is executed $n$ times.  The second for loop iterates 255 times and the last \texttt{for}-loop again
 iterates $n$ times.  Hence, counting sort is a \blue{linear sorting algorithm}.  Note that we do not compare grades in
 order to sort them.
 
@@ -1860,15 +1896,16 @@ Another important fact is that counting sort is \blue{stable}\index{stable}: In 
 corresponding to the different grades are still sorted alphabetically.  This is so because these sublists are
 filled by iterating over the original list that is sorted alphabetically.  If two students $x$ and $y$ have the
 same grade $g$ but the name of $x$ is alphabetically before the name of $y$, then $x$ will be inserted into the
-sublist corresponding to grade $g$ before $y$ and hence these sublists are ordered alphabetically.  This property
+sublist corresponding to grade $g$ before $y$ and hence these sublists are still ordered alphabetically.  This property
 is crucial for the development of our next sorting algorithm \blue{radix sort}.
 
 \section{Radix Sort}
 \index{radix sort}
 The importance of the previous sorting algorithm, \blue{counting sort}, stems from the fact that it is part of the
-implementation of \href{https://en.wikipedia.org/wiki/Radix_sort}{radix sort}.  \blue{Radix sort} was used as early as 1887 in
+implementation of \href{https://en.wikipedia.org/wiki/Radix_sort}{radix sort}. \index{radix sort}
+\blue{Radix sort} was used as early as 1887 in 
 \href{https://en.wikipedia.org/wiki/Tabulating_machine}{tabulating machines} constructed by
-\href{https://en.wikipedia.org/wiki/Herman_Hollerith}{Hermann Hollerith}.  He was the founder of
+\href{https://en.wikipedia.org/wiki/Herman_Hollerith}{Hermann Hollerith}.  \index{Hollerith, Herman} He was the founder of
 the \blue{Tabulating Machine Company} that later became \href{https://en.wikipedia.org/wiki/IBM}{\textsc{Ibm}}.
 To understand radix sort, suppose we want to implement an algorithm that sorts a large number of 32 bit
 unsigned integers.  The easiest way to do this would be to use counting sort:
@@ -1883,7 +1920,7 @@ Note that we have  numbered the bytes starting from the the least significant by
 Then, radix sort works as follows:
 \begin{enumerate}
 \item Sort the numbers by interpreting the byte $b_1$ as a grade.
-\item Take the numbers that have been sorted by the byte $b_1$ and sort them by the byte $b_2$ next.
+\item Take the numbers that have been sorted by the byte $b_1$ and sort them according to the byte $b_2$ next.
       Since counting sort is \blue{stable}, numbers which happen to have the same byte $b_2$ will still be
       sorted with respect to the byte $b_1$.  Hence, after the sorting with respect to the byte $b_2$ is
       complete, in effect the numbers will then be sorted according to both $b_2$ and $b_1$.
@@ -1906,13 +1943,14 @@ Then, radix sort works as follows:
                   xrightmargin  = 0.8cm,
                   ]{python3}
     def extractByte(n, k):
-        return n >> (8 * (k-1)) & 255
+        return n >> (8 * (k-1)) & 0b11111111
     
     def radixSort(L):
+        L = [(n, 0) for n in L]
         for k in range(1, 4+1):
-            Grades = [extractByte(n, k) for n in L]
-            L      = countingSort(L, Grades)[0]
-        return L
+            L = [(n, extractByte(n, k)) for (n, _) in L]
+            L = countingSort(L)
+        return [n for (n, _) in L]    
 \end{minted}
 \vspace*{-0.3cm}
 \caption{An implementation of \blue{radix sort} for sorting unsigned 32 integers.}
@@ -1931,14 +1969,19 @@ sort that implements this idea.
 
       \texttt{extractByte} works by shifting the number $x$ by $(k-1) \cdot 8$ bits to the right using the
       operator \texttt{>>}.  Then, the least significant byte of the resulting number is extracted using the 
-      \blue{bitwise and operator} with mask $255$.  Note that $255$ is written as $11111111_2$ in binary. 
+      \blue{bitwise and operator} with mask $255$.  Note that $255$ is written as $11111111_2$ in binary.
 \item \texttt{radixSort} takes a list of unsigned 32 bit integers $L$ as its arguments.
-\item It iterates over the four bytes of these numbers starting with the least significant byte.
-\item With respect to \texttt{countingSort},  the elements of the list given to \texttt{countingSort} as its first argument are
+\item This list is extended to a list of pairs where the first component of each pair is the number.      
+\item Then \texttt{radixSort} iterates over the four bytes of the numbers of the list $L$ starting with the
+      least significant byte.
+\item In line 7 the $k^\mathrm{\scriptsize th}$ byte of the numbers of $L$ is written into the second component
+      of the pairs stored in the list.      
+\item With respect to \texttt{countingSort},  the elements of the list given to \texttt{countingSort} as its
+      first argument are 
       arbitrary objects.  Therefore, it does not matter whether the first argument to the function
-      \texttt{countingSort} is a list of strings interpreted as student names or a list of numbers.  This list
-      is sorted with respect to the second argument, the nature of the elements of this list is
-      irrelevant.  Therefore, in line 7 the list $L$ is sorted with respect to the $k$-th byte. 
+      \texttt{countingSort} is a list of strings interpreted as student names or a list of numbers.
+      Therefore in line 8 this list
+      is sorted with respect to the $k^\mathrm{\scriptsize th}$ byte. 
 \item When $L$ is returned, this list is sorted with respect to all of the four bytes making up its numbers and
       hence, it is sorted.
 \end{enumerate}
@@ -1965,7 +2008,7 @@ as digits.
 
 \subsection{The $k$-Nearest Neighbour Algorithm}
 We will use the \href{https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm}{$k$-nearest neighbours algorithm} 
-\index{$k$ nearest neighbours algorithm}
+\index{$k$-nearest neighbours algorithm}
 to solve this task.  Given an image $x$ that is to be classified as a digit, we look at those images in the
 training set that are somehow \blue{close} to $x$.  If these images are all labelled with the same digit $d$,
 we conclude that $x$ shows the digit $d$.  In order to implement this algorithm, we have to specify what it
@@ -2124,31 +2167,44 @@ be used to recognize a handwritten digit.
 \item The last line shows how the function \texttt{digit} can be used to classify the first image from the test
       set using the 13 closest neighbours. 
 \end{enumerate}
+
+\exercise
+In the program shown in Figure \ref{fig:Digit-Recognition.ipynb} on page \pageref{fig:Digit-Recognition.ipynb}
+we have sorted the list \texttt{Distances} in line 32.  The only reason to do this was to be able to find the $k$ smallest
+distances in this list.  As $k$ is a small number and the list \texttt{Distances} is rather large, this seems wasteful.
+\begin{enumerate}[(a)]
+\item Devise an algorithm that selects the $k$ smallest elements from a list $L$.
+
+      \hint
+      Try to adapt the algorithm Quicksort so that instead of sorting the list it finds the $k$ smallest elements.      
+\item Analyse the average complexity of your algorithm. \eox
+\end{enumerate}   
 \pagebreak
 
 \section{Check Your Understanding}
 If you are able to answer the questions below confidently, then you can assume that you have mastered the concepts
 introduced in this chapter.
 \begin{enumerate}
-\item How have we defined the concept of a \emph{linear order}?
-\item What type of order do we need when we want to sort a list?
-\item Describe the algorithm \emph{insertion sort} on an abstract mathematical level.
-\item What is the complexity of \emph{insertion sort}?
-\item Is there a case where \emph{insertion sort}  has only a linear complexity?
-\item Describe the algorithm \emph{selection sort} on an abstract mathematical level.
-\item What is the complexity of \emph{selection sort}?
-\item Compare the complexity of \emph{selection sort} with the complexity of \emph{insertion sort}.
-\item Describe the algorithm \emph{merge sort} on an abstract mathematical level.
-\item Describe an array-based, non-recursive implementation of \emph{merge sort}.
-\item Describe the algorithm \emph{quicksort} on an abstract mathematical level.
-\item Describe an array-based implementation of \emph{quicksort}.
-\item Compare the complexity of \emph{merge sort} with the complexity of \emph{quicksort}.
-\item Describe \emph{dual pivot quicksort}.
-\item In which case is \emph{dual pivot quicksort} much faster than \emph{quicksort}?
-\item How does \emph{counting sort} work?
-\item How does \emph{radix sort} work?
+\item How have we defined the concept of a \blue{linear order}?
+\item What type of order do we need if we have to sort a list?
+\item Describe the algorithm \blue{insertion sort} on an abstract mathematical level.
+\item What is the complexity of \blue{insertion sort}?
+\item Is there a case where \blue{insertion sort}  has only a linear complexity?
+\item Describe the algorithm \blue{selection sort} on an abstract mathematical level.
+\item What is the complexity of \blue{selection sort}?
+\item Compare the complexity of \blue{selection sort} with the complexity of \blue{insertion sort}.
+\item Describe the algorithm \blue{merge sort} on an abstract mathematical level.
+\item Describe an array-based, non-recursive implementation of \blue{merge sort}.
+\item Describe the algorithm \blue{quicksort} on an abstract mathematical level.
+\item Describe an array-based implementation of \blue{quicksort}.
+\item Compare the complexity of \blue{merge sort} with the complexity of \blue{quicksort}.
+\item Compare the memory requierements of \blue{merge sort} and \blue{quicksort}.
+\item Describe \blue{dual pivot quicksort}.
+\item In which case is \blue{dual pivot quicksort} much faster than \blue{quicksort}?
+\item How does \blue{counting sort} work?
+\item How does \blue{radix sort} work?
 \item What is the complexity of radix sort?
-\item How does the \emph{$k$-nearest neighbours algorithm} work?
+\item How does the \blue{$k$-nearest neighbours algorithm} work?
 \end{enumerate}
 
 %%% Local Variables: 
