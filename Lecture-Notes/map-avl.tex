@@ -3,9 +3,11 @@ If a binary tree is approximately \blue{balanced}, i.e.~if the left and right su
 roughly the same height, then the complexity of $b.\texttt{find}(k)$ will always be of the order
 $\Oh\bigl(\ln(n)\bigr)$.  There are a number of different variations of
 balanced binary trees.  Of these variations, the species of balanced binary trees that is the easiest to understand is
-called an \href{https://en.wikipedia.org/wiki/AVL_tree}{AVL tree} \cite{adelson:62}.  AVL trees are 
-named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-Velsky}{Georgy M.~Adelson-Velsky} 
-(1922 -- 2014) and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis} (1921 -- 1997).  
+called an \href{https://en.wikipedia.org/wiki/Avl_tree}{\textsc{Avl} tree} \cite{adelson:62}.  \textsc{Avl} trees are 
+named after their inventors \href{https://en.wikipedia.org/wiki/Georgy_Adelson-Velsky}{Georgy M.~Adelson-Velsky}
+\index{Adelson-Velsky, Georgy Maximovich} 
+(1922 -- 2014) and \href{https://en.wikipedia.org/wiki/Evgenii_Landis}{Evgenii~M.~Landis} (1921 -- 1997).
+\index{Landis, Evgenii Mikhailovich}
 In order to define these trees we need to define the \blue{height} of a binary tree formally:
 \begin{enumerate}
 \item $\texttt{Nil}.\texttt{height}() = 0$.
@@ -13,9 +15,9 @@ In order to define these trees we need to define the \blue{height} of a binary t
        \max\bigl( l.\texttt{height}(), r.\texttt{height}() \bigr) + 1$. \eox
 \end{enumerate}
 
-\begin{Definition}[AVL-Tree] \hspace*{\fill} \\
+\begin{Definition}[\textsc{Avl}-Tree] \hspace*{\fill} \\
 {\em 
-  The set $\AVL$ of \blue{AVL trees}\index{AVL tree} is defined inductively:
+  The set $\AVL$ of \blue{\textsc{Avl} trees}\index{\textsc{Avl} tree} \index{$\mathcal{A}$, \textsc{Avl} tree} is defined inductively:
   \begin{enumerate}
   \item $\texttt{Nil} \in \AVL$.
   \item $\texttt{Node}(k,v,l,r) \in \AVL$ \quad iff 
@@ -24,16 +26,16 @@ In order to define these trees we need to define the \blue{height} of a binary t
         \item $l, r \in \AVL$, \quad and
         \item $|l.\texttt{height}() - r.\texttt{height}()| \leq 1$.
 
-              This condition is called the \blue{balancing condition}.
+              This condition is called the \blue{balancing condition}. \index{balancing condition}
         \end{enumerate}
-        According to this definition, an AVL tree is an ordered binary tree such that for every node
+        According to this definition, an \textsc{Avl} tree is an ordered binary tree such that for every node
         $\texttt{Node}(k,v,l,r)$ in this tree the height of the left subtree $l$ and the right
         subtree  $r$ differ at most by one.  \qed
   \end{enumerate}
 }  
 \end{Definition}
 
-In order to specify the methods \emph{$\texttt{find}$}, \emph{$\texttt{insert}$}, and \emph{$\texttt{delete}$} for AVL trees we
+In order to specify the methods \emph{$\texttt{find}$}, \emph{$\texttt{insert}$}, and \emph{$\texttt{delete}$} for \textsc{Avl} trees we
 adapt the recursive equations that we have used to define these functions for ordered binary trees.
 In addition to those methods that we have already seen in the class $\texttt{Map}$ we will need the method
 \\[0.2cm]
@@ -55,7 +57,7 @@ The method $\texttt{restore}$ is specified via conditional equations.
 \begin{enumerate}
 \item $\texttt{Nil}.\texttt{restore}() = \texttt{Nil}$,
 
-      because the empty tree already is an  AVL tree.
+      because the empty tree already is an  \textsc{Avl} tree.
 \item $|l.\texttt{height}() - r.\texttt{height}()| \leq 1 \rightarrow 
        \texttt{Node}(k,v,l,r).\texttt{restore}() = \texttt{Node}(k,v,l,r)$.
 
@@ -83,27 +85,26 @@ The method $\texttt{restore}$ is specified via conditional equations.
       $\texttt{Node}\bigl(k_2,v_2,l_2,\texttt{Node}(k_1,v_1,r_2,r_1)\bigr)$.
       \\[0.2cm]
       In Figure \ref{fig:casell} the label below the horizontal line of each node shows the height
-      of the tree corresponding to this node.  For subtrees, the height is given below the name of
+      of the tree corresponding to this node and not the value, because the values are irrelevant when it comes
+      to rebalancing the trees.  For subtrees, the height is given below the name of
       the subtree.  For example,  $h$ is the height of the subtree 
       $l_2$, while $h-1$ is the height of the subtree $r_1$. The height of the subtree $r_2$
-      is $h'$ and we know that $h' \leq h$.  As $\texttt{Node}(k_2,v_2,l_2,r_2)$ is an AVL tree and we know that
-      $l_2.\texttt{height}() \geq r_2.\texttt{height}()$, we
-      either have $h' = h$ or $h' = h-1$.
+      is either $h$ or $h-1$.
 
       The state shown in Figure \ref{fig:casell} can arise if either an element has been inserted
       in the left subtree $l_1$ or if an element has been deleted from the right subtree  $r_1$.
 
       \begin{figure}[!ht]
         \centering
-        \framebox{\epsfig{file=Abbildungen/casell.pdf,scale=0.7}} 
+        \framebox{\epsfig{file=Abbildungen/casell.eps,scale=0.63}} 
         \caption{An unbalanced tree and the corresponding rebalanced tree.}
         \label{fig:casell}
       \end{figure}
       We have to make sure that the tree shown in the right part of Figure
-      \ref{fig:casell} is indeed an  AVL tree. With respect to the balancing condition this is
+      \ref{fig:casell} is indeed an  \textsc{Avl} tree. With respect to the balancing condition this is
       easily verified.  The fact that the node containing the key $k_1$ has either the height
       $h$ or $h+1$ is a consequence of the fact that the height of $r_1$ is  $h-1$ while the height of $r_2$ is
-      $h'$ and we know that $h' \in \{h, h-1\}$.
+      either $h$ or $h-1$.
 
       In order to verify that the tree is ordered we can use the following inequation: 
       \\[0.2cm]
@@ -140,7 +141,7 @@ The method $\texttt{restore}$ is specified via conditional equations.
        
 \begin{figure}[!ht]
   \centering
-  \framebox{\epsfig{file=Abbildungen/caselr,scale=0.7}} 
+  \framebox{\epsfig{file=Abbildungen/caselr.eps,scale=0.7}} 
   \caption{An unbalanced tree, second case.}
   \label{fig:caselr}
 \end{figure}
@@ -154,40 +155,29 @@ The method $\texttt{restore}$ is specified via conditional equations.
 
 \begin{figure}[!ht]
   \centering
-  \framebox{\epsfig{file=Abbildungen/caselr-nach,scale=0.7}} 
+  \framebox{\epsfig{file=Abbildungen/caselr-nach.eps,scale=0.7}} 
   \caption{The rebalanced tree in the second case.}
   \label{fig:caselr-nach}
 \end{figure}
 
-      The inequation describing the ordering of the keys both in the left subtree and in the right
-      subtree is given as
+      The inequation describing the ordering of the keys both in the tree in Figure \ref{fig:caselr} and the
+      tree in Figure \ref{fig:caselr-nach} is given as
       \\[0.2cm]
       \hspace*{1.3cm} $l_2 < k_2 < l_3 < k_3 < r_3 < k_1 < r_1$.
 
       There are two more cases where the height of the right subtree is bigger by more than 
       the height of the left subtree plus one.  These two cases are completely analogous to the two
-      cases discussed previously.  Therefore we just state the corresponding equations without
-      further discussion.
-\item $\begin{array}[t]{cl}
-              & r_1.\texttt{height}() = l_1.\texttt{height}() + 2    \\ 
-       \wedge & r_1 = \texttt{Node}(k_2,v_2,l_2,r_2)               \\
-       \wedge & r_2.\texttt{height}() \geq l_2.\texttt{height}()     \\[0.2cm]
-       \rightarrow & \texttt{Node}(k_1,v_1,l_1,r_1).\texttt{restore}() = 
-                     \texttt{Node}\bigl(k_2,v_2,\texttt{Node}(k_1,v_1,l_1,l_2),r_2\bigr)
-       \end{array}
-      $
-\item $\begin{array}[t]{cl}
-               & r_1.\texttt{height}() = l_1.\texttt{height}() + 2    \\ 
-        \wedge & r_1 = \texttt{Node}(k_2,v_2,l_2,r_2)               \\
-        \wedge & r_2.\texttt{height}() < l_2.\texttt{height}()     \\
-        \wedge & l_2 = \texttt{Node}(k_3,v_3,l_3,r_3)               \\
-        \rightarrow & \texttt{Node}(k_1,v_1,l_1,r_1).\texttt{restore}() = 
-                      \texttt{Node}\bigl(k_3,v_3,\texttt{Node}(k_1,v_1,l_1,l_3),\texttt{Node}(k_2,v_2,r_3,r_2) \bigr)
-        \end{array}
-       $
-
+      cases discussed previously.  The derivation of the corresponding equations is left as an exercise.
 \end{enumerate}
-Now we are ready to specify the method  $\texttt{insert}()$ via recursive equations.
+
+\exercise
+Derive the two equations to compute $\texttt{Node}(k_1,v_1,l_1,r_1).\texttt{restore}()$ that have the
+precondition $r_1.\texttt{height}() = l_1.\texttt{height}() + 2$.  You should start your derivation of these
+equations by drawing diagrams that are analogous to the diagrams shown Figure \ref{fig:casell}, Figure
+\ref{fig:caselr}, and Figure \ref{fig:caselr-nach}. 
+\eox
+
+Next, we specify the method  $\texttt{insert}()$ via recursive equations.
 If we compare these equations to the equations we had given for unbalanced ordered binary trees we
 notice that we only have to call the method $\texttt{restore}$ if the balancing condition might have
 been violated.
@@ -227,13 +217,13 @@ Finally, the equations for $\texttt{delete}$ are as follows:
 
 
 \subsection{Implementing AVL-Trees in \textsl{Python}}
-If we want to implement AVL-trees in \textsl{Python} then we have to decide how to compute the height
+If we want to implement \textsc{Avl}-trees in \textsl{Python}, then we have to decide how to compute the height
 of the trees.  The idea is to store the height of every subtree in the corresponding node since it
 would be inefficient if we would recompute this height every time we need it.  Therefore, we add a
 member variable \texttt{mHeight} to our class map.
-Figure \ref{fig:avl-tree.ipython:init} shows the constructor of the class \texttt{AVLTree}.  The variable
+Figure \ref{fig:avl-tree.ipython:init} shows the constructor of the class \texttt{AvlTree}.  The variable
 \texttt{mHeight} is defined in line 7.  It is initialised as $0$ since the constructor \texttt{\_\_init\_\_}
-constructs an empty node.  
+constructs an empty tree.  
 
 \begin{figure}[!ht]
   \centering
@@ -245,7 +235,7 @@ constructs an empty node.
                 xleftmargin   = 0.8cm,
                 xrightmargin  = 0.8cm
               ]{python3}
-    class AVLTree:
+    class AvlTree:
         def __init__(self):
             self.mKey    = None
             self.mValue  = None
@@ -258,11 +248,33 @@ constructs an empty node.
   \label{fig:avl-tree.ipython:init}
 \end{figure}
 
+Figure \ref{fig:avl-tree.ipython:isEmpty} shows the implementation of the function $\texttt{isEmpty}$.
+A tree is empty iff its height is $0$.
+
+\begin{figure}[!ht]
+\centering
+\begin{minted}[ frame         = lines, 
+                  framesep      = 0.3cm, 
+                  firstnumber   = 1,
+                  bgcolor = sepia,
+                  numbers       = left,
+                  numbersep     = -0.2cm,
+                  xleftmargin   = 0.8cm,
+                  xrightmargin  = 0.8cm,
+                ]{python3}
+    def isEmpty(self):
+        return self.mHeight == 0
+\end{minted}
+\vspace*{-0.3cm}
+\caption{Implementation of the method $\texttt{isEmpyty}$.}
+\label{fig:avl-tree.ipython:isEmpty}
+\end{figure}
 
 Figure \ref{fig:avl-tree.ipython:find} shows the implementation of the function $\texttt{find}$.
-Actually, the implementation is the same as the implementation in Figure
-\ref{fig:binary-tree.py-1}.  The reason is that every AVL tree is also an ordered binary tree and
-since searching for a key does not change the underlying tree there is no need to restore anything.
+Actually, this implementation is the same as the implementation that we have given earlier in Figure
+\ref{fig:binary-tree.py-1} for ordered binary trees.  The reason is that every \textsc{Avl} tree is also an
+ordered binary tree and since searching for a key does not change the underlying tree there is no need to
+restore anything. 
 
 \begin{figure}[!ht]
 \centering
@@ -290,7 +302,6 @@ since searching for a key does not change the underlying tree there is no need t
 \label{fig:avl-tree.ipython:find}
 \end{figure}
 
-
 Figure \ref{fig:avl-tree.ipython:insert} shows the implementation of the method $\texttt{insert}$.
 If we compare this implementation with the implementation for ordered binary trees, we find three
 differences.
@@ -299,7 +310,7 @@ differences.
       to $1$.  This is done in line 7.
 \item After inserting a key-value pair into the left subtree \texttt{mLeft}, it might be necessary to 
       rebalance the tree.  This is done in line 12.
-\item Similarly, if we insert a key-value pair into the right subtree \texttt{mRight}, we have to rebalance 
+\item Similarly, if we insert a key-value pair into the right subtree \texttt{mRight}, we might have to rebalance 
       the tree.  This is done in line 15.
 \end{enumerate}
 
@@ -318,8 +329,8 @@ differences.
         if self.isEmpty():
             self.mKey    = key
             self.mValue  = value
-            self.mLeft   = AVLTree()
-            self.mRight  = AVLTree()
+            self.mLeft   = AvlTree()
+            self.mRight  = AvlTree()
             self.mHeight = 1
         elif self.mKey == key:
             self.mValue = value
@@ -373,11 +384,11 @@ implementation of the auxiliary method \texttt{update}.  Compared with Figure
 \item If we delete the key at the root of the tree, we replace this key with the smallest key in the
       right subtree. Since this key is deleted in the right subtree, the height of the right
       subtree might shrink and hence the balancing condition at the root might be violated.
-      Therefore, we have to restore the balancing condition.  This is done in line 12.
+      Therefore, we have to restore the balancing condition.  This is done in line 11.
 \item If we delete a key in the left subtree, the height of the left subtree might shrink.
-      Hence we have to rebalance the tree at the root in line 15.
+      Hence we have to rebalance the tree at the root in line 14.
 \item Similarly, if we delete a key in the right subtree, we have to restore the balancing
-      condition.  This is done in line 18.
+      condition.  This is done in line 17.
 \end{enumerate}
 Since the method \texttt{update} replaces the current tree with either its left or right subtree and this
 subtree is assumed to satisfy the balancing condition, there is no need for a call to \texttt{restore} in this
@@ -391,8 +402,8 @@ method.
                 bgcolor = sepia,
                 numbers       = left,
                 numbersep     = -0.2cm,
-                xleftmargin   = 0.8cm,
-                xrightmargin  = 0.8cm,
+                xleftmargin   = 0.0cm,
+                xrightmargin  = 0.0cm,
               ]{python3}
     def delete(self, key):
         if self.isEmpty():
@@ -403,8 +414,7 @@ method.
             elif self.mRight.isEmpty():
                 self._update(self.mLeft)
             else:
-                self.mRight, self.mKey, self.mValue = \
-                     self.mRight._delMin()
+                self.mRight, self.mKey, self.mValue = self.mRight._delMin()
                 self._restore()
         elif key < self.mKey:
             self.mLeft.delete(key)
@@ -466,7 +476,7 @@ method.
         self.mRight = r
     
     def _restoreHeight(self):
-        self.mHeight = max(self.mLeft.mHeight, self.mRight.mHeight)+1
+        self.mHeight = max(self.mLeft.mHeight, self.mRight.mHeight) + 1
 \end{minted}
 \vspace*{-0.3cm}
 \caption{The implementation of \texttt{restore} and \texttt{restoreHeight}.}
@@ -475,12 +485,12 @@ method.
 
 
 Figure \ref{fig:avl-tree.ipython:restore} shows the implementation of the function \texttt{restore}.
-It is this method that makes most of the difference between ordered binary trees and AVL trees.  Let
+It is this method that makes most of the difference between ordered binary trees and \textsc{Avl} trees.  Let
 us discuss this method line by line.
 \begin{enumerate}
 \item In line 2 we check whether the balancing condition is satisfied.  If we are lucky,  this test 
       is successful and hence we do not need to restore the structure of the tree.  However, we
-      still need to maintain the height of the tree since it is possible that variable
+      still need to maintain the height of the tree since it is possible that the variable
       \texttt{mHeight} no longer contains the correct height.  For example, assume that the left subtree
       initially has a height that is bigger by one than the height of the right subtree.  Assume
       further that we have deleted a node in the left subtree so that its height shrinks.  Then the
@@ -530,7 +540,7 @@ us discuss this method line by line.
                 xrightmargin  = 0.8cm,
               ]{python3}
     def createNode(key, value, left, right):
-        node         = AVLTree()
+        node         = AvlTree()
         node.mKey    = key
         node.mValue  = value
         node.mLeft   = left
@@ -549,69 +559,72 @@ constructor for the class \texttt{map}.  The implementation should be obvious.
 
 
 \subsection{Analysis of the Complexity of AVL Trees}
-Next, we analyse the complexity of AVL trees in the worst case.  In order to do this we have to know
+Next, we analyse the complexity of \textsc{Avl} trees in the worst case.  In order to do this we have to know
 what the worst case actually looks like.  Back when we only had ordered binary trees the worst case was the case where
 the tree had degenerated into a list.  Now, the worst case is the case where the tree is as slim as
-it can possibly be while still satisfying the definition of an AVL tree.  Hence the worst case
+it can possibly be while still satisfying the balancing condition of an \textsc{Avl} tree.  Hence the worst case
 happens if the tree has a given height $h$ but the number of keys stored in the tree is as small as
-possible.  To investigate trees of this kind, let us define  $b_h(k)$ as an AVL tree that has the following three
+possible.  To investigate trees of this kind, let us define  $b_h(k)$ as an \textsc{Avl} tree that has the following three
 properties:
 \begin{enumerate}[(a)]
 \item The height of $b_h(k)$ is $h$.
-\item The number of keys stored in $b_h(k)$ is minimal among all other AVL trees of height $h$.  
+\item The number of keys stored in $b_h(k)$ is minimal among all other \textsc{Avl} trees of height $h$.  
 \item All keys stored in  $b_h(k)$ are natural number that are bigger than  $k$.
 
-      In order for the expression $b_h(k)$ to be clearly defined we demand that keys
-      in $b_h(k)$ are as small as possible.
+      In order for the expression $b_h(k)$ to be unambiguously defined we demand that the keys
+      in $b_h(k)$ are natural numbers that are as small as possible.  Furthermore, as the values do
+      not really matter, we define the values to be $0$.
+\item If $h > 1$, then the height of the left subtree of $b_h(k)$ is bigger than the height of its right subtree.
 \end{enumerate}
 For our investigation of the complexity, both the keys and the values do not really matter.  The only problem
 is that we have to ensure that the tree $b_h(k)$ is an ordered tree.
 Before we can present the definition of $b_h(k)$ we need to define the auxiliary function
- $\texttt{maxKey}()$.  This function has the signature 
+$\texttt{maxKey}()$, which computes the largest key that is stored in a given tree.  This function has the
+ signature  
 \\[0.2cm]
 \hspace*{1.3cm}
 $\texttt{maxKey}:\mathcal{B} \rightarrow \texttt{Key} \cup \{ \Omega \}$.
 \\[0.2cm]
-Given a non-empty ordered binary tree  $b$, the expression $b.\texttt{maxKey}()$ returns the biggest
-key stored in $b$.  The expression  $b.\texttt{maxKey}()$ is defined by induction on $b$:
+Given an ordered binary tree  $b$, the expression $b.\texttt{maxKey}()$ returns the largest
+key that is stored in $b$.  The expression  $b.\texttt{maxKey}()$ is defined by induction on $b$:
 \begin{enumerate}
 \item $\texttt{Nil}.\texttt{maxKey}() = \Omega$,
 \item $\texttt{Node}(k,v,l,\texttt{Nil}).\texttt{maxKey}() = k$,
 \item $r \not= \texttt{Nil} \rightarrow \texttt{Node}(k,v,l,r).\texttt{maxKey}() = r.\texttt{maxKey}()$.
 \end{enumerate}
-Now we are ready to define the trees  $b_h(k)$ by induction on  $h$.
+Now we are ready to define the tree $b_h(k)$ by induction on  $h$.
 \begin{enumerate}
 \item $b_0(k) = \texttt{Nil}$,
 
-      because there is only one AVL tree of height $0$ and this is the tree $\texttt{Nil}$.
+      because there is only one \textsc{Avl} tree of height $0$ and this is the tree $\texttt{Nil}$.
 \item $b_1(k) = \texttt{Node}(k+1,0,\texttt{Nil}, \texttt{Nil})$,
 
-      since, if we abstract from the actual keys and values, there is exactly one AVL tree of height
+      since, if we abstract from the actual keys and values, there is exactly one \textsc{Avl} tree of height
       $1$.
 \item $b_{h+1}(k).\texttt{maxKey}() = l \rightarrow 
        b_{h+2}(k) = \texttt{Node}\bigl(l+1,\,0,\,b_{h+1}(k),\,b_h(l+1)\bigr)$.
 
-      In order to construct an AVL tree of height $h+2$ that contains the minimal number of keys 
-      possible we first construct the AVL tree $b_{h+1}(k)$ which has height  $h+1$ and which stores as few
+      In order to construct an \textsc{Avl} tree of height $h+2$ that contains the minimal number of keys 
+      we first construct the \textsc{Avl} tree $b_{h+1}(k)$ which has height  $h+1$ and which stores as few
       key as possible given its height.  Next, we determine the biggest key $l$ in this tree. 
       Now to construct $b_{h+2}(k)$ we take a node with the key $l+1$ as the root.
-      The left subtree of this node is $b_{h+1}(k)$, while the right subtree is $b_h(l+1)$.
+      The left subtree $b_{h+2}(k)$ is $b_{h+1}(k)$, while its right subtree is $b_h(l+1)$.
       Since $l$ is the biggest key in $b_{h+1}(k)$, all key in the left subtree of
       $b_{h+2}(k)$ are indeed smaller than the key $l+1$ at the root.  Since all keys in
       $b_h(l+1)$ are bigger than $l+1$, the keys in the right subtree are bigger than the key at the
-      root.  Therefore, $b_{h+2}(k)$ is an ordered binary tree.
+      root.  Therefore, $b_{h+2}(k)$ is an \textsc{Avl} tree.
 
-      Furthermore, $b_{h+2}(k)$ is an AVL tree of height $h+2$ since the height of the left subtree
+      Furthermore, $b_{h+2}(k)$ is an \textsc{Avl} tree of height $h+2$ since the height of the left subtree
       is $h+1$ and the height of the right subtree is $h$.  Also, this tree is as slim as
-      any AVL tree can possibly get, since if the left subtree has height $h+1$ the right subtree
-      must at least have height $h$ in order for the whole tree to be an AVL tree.
+      any \textsc{Avl} tree can possibly get, since if the left subtree has height $h+1$ the right subtree
+      must at least have height $h$ in order for the whole tree to satisfy the balancing condition.
 \end{enumerate}
-Let us denote the number of keys stored in a binary tree $b$ as  $\#\,b$.  Furthermore, we define
+Let us denote the number of keys stored in a binary tree $b$ as  $\#\,b$.  We define
 \\[0.2cm]
 \hspace*{1.3cm}
 $c_h := \#\, b_h(k)$
 \\[0.2cm]
-to be the number of keys in the tree $b_h(k)$.  We will soon see that 
+to be the number of keys in the tree $b_h(k)$.  An easy induction on $h$ shows that 
 $\#\,b_h(k)$ does not depend on the number $k$ and therefore $c_h$ does not depend on $k$.  Starting
 from the definition of $b_h(k)$ we find the following equations for $c_h$:
 \begin{enumerate}
@@ -629,9 +642,8 @@ Hence we have found the \href{https://en.wikipedia.org/wiki/Recurrence_relation}
 \hspace*{1.3cm}
 $c_{h+2} = c_{h+1} + c_h + 1 \quad \mbox{with initial values $c_0 = 0$ and $c_1 = 1$}.$
 \\[0.2cm]
-This also validates our claim that $c_h$ does not depend on $k$.  Due to the presence of the number $1$ on the
-right hand side of this recurrence equation, this recurrence equation is an 
-\blue{inhomogeneous recurrence equation}.  In order to solve this recurrence
+This also validates our claim that $c_h$ does not depend on $k$.  This is a linear, inhomogeneous recurrence
+equation.  In order to solve this recurrence
 equation we first solve the corresponding \blue{homogeneous recurrence equation} 
 \\[0.2cm]
 \hspace*{1.3cm}
@@ -655,23 +667,28 @@ $\lambda^2 = \lambda + 1$
 which can be rearranged as
 \\[0.2cm]
 \hspace*{1.3cm}
-$\lambda^2 - 2 \cdot \lambda \cdot \frac{1}{2} = 1$.
+$\ds \lambda^2 - 2 \cdot \lambda \cdot \frac{1}{2} = 1$.
 \\[0.2cm]
-Adding $\frac{1}{4}$ on both sides of this equation completes the square on the left hand side:
+To complete the square we add $\frac{1}{4}$ on both sides of this equation:
 \\[0.2cm]
 \hspace*{1.3cm}
-$\bigl(\lambda - \frac{1}{2}\bigr)^2 = \frac{5}{4}$. 
+$\ds \lambda^2 - 2 \cdot \lambda \cdot \frac{1}{2} + \Bigl(\frac{1}{2}\Bigr)^2 = 1 + \frac{1}{4}$.
+\\[0.2cm]
+This is equivalent to
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds \Bigl(\lambda - \frac{1}{2}\Bigr)^2 = \frac{5}{4}$. 
 \\[0.2cm]
 From this we conclude 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\lambda = \frac{1}{2} \cdot \bigl(1 + \sqrt{5}\bigr) \;\vee\; \lambda = \frac{1}{2} \cdot \bigl(1 - \sqrt{5}\bigr)$.
+$\ds\lambda = \frac{1}{2} \cdot \bigl(1 + \sqrt{5}\bigr) \;\vee\; \lambda = \frac{1}{2} \cdot \bigl(1 - \sqrt{5}\bigr)$.
 \\[0.2cm]
 Let us therefore define 
 \\[0.2cm]
 \hspace*{1.3cm}
-$\lambda_1 =  \frac{1}{2} \cdot (1 + \sqrt{5}) \approx  1.618034$ \quad and \quad 
-$\lambda_2 = \frac{1}{2} \cdot (1 - \sqrt{5}) \approx -0.618034$.
+$\ds\lambda_1 =  \frac{1}{2} \cdot (1 + \sqrt{5}) \approx  1.618034$ \quad and \quad 
+$\ds\lambda_2 = \frac{1}{2} \cdot (1 - \sqrt{5}) \approx -0.618034$.
 \\[0.2cm]
 In order to solve the \blue{inhomogeneous recurrence equation} for $c_h$ we try the ansatz
 \\[0.2cm]
@@ -681,7 +698,7 @@ $c_h = d$ \quad for some constant $d$.
 Substituting this ansatz into the recurrence equation for $c_h$ yields
 \\[0.2cm]
 \hspace*{1.3cm}
-$d = d + d + 1$
+$d = d + d + 1$,
 \\[0.2cm]
 from which we conclude that $d = -1$.  The solution for $c_h$ is now a linear combination of the solutions for
 the corresponding homogeneous recurrence equation to which we have to add the solution for the inhomogeneous equation:
@@ -707,6 +724,11 @@ Solving this equation for $\alpha$ gives
 \\[0.2cm]
 \hspace*{1.3cm}
 $2 - \lambda_2 = \alpha \cdot (\lambda_1 - \lambda_2)$
+\\[0.2cm]
+and therefore
+\\[0.2cm]
+\hspace*{1.3cm}
+$\ds \alpha = \frac{2 - \lambda_2}{\lambda_1 - \lambda_2}$.
 \\[0.2cm]
 Now it just so happens that $\lambda_1 - \lambda_2 = \sqrt{5}$ and, furthermore, $2 - \lambda_2 = \lambda_1^2$.
 We prove only the second claim, since the first is easy to verify.  We have the following
@@ -754,7 +776,7 @@ Let us divide this inequation by  $\log_2(\lambda_1)$.  Then we get
 \hspace*{1.3cm}
 $\ds \bruch{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} = h+2$.
 \\[0.2cm]
-Solving this equation for  $h$ gives the result 
+Solving this equation for  $h$ yields the result 
 \\[0.4cm]
 \hspace*{1.3cm} 
 $
@@ -765,25 +787,30 @@ h & = & \ds \frac{\log_2(n+1) + \frac{1}{2}\cdot \log_2(5)}{\log_2(\lambda_1)} -
 \end{array} 
 $
 \\[0.2cm]
-However, the height $h$ is the maximal number of comparisons needed to find a given key.
-Hence, for AVL trees the complexity of $b.\texttt{find}(k)$ is logarithmic even in the worst case.
+Above we have used the fact that 
+\\[0.2cm]
+\hspace*{1.3cm}
+$\log_2(n+1) - \log_2(n) \in \Oh(1)$. 
+\\[0.2cm]
+As the height $h$ is the maximal number of comparisons needed to find a given key
+the complexity of $b.\texttt{find}(k)$ for an \textsc{Avl} tree $b$ is logarithmic even in the worst case.
 Figure 
-\ref{fig:avl-worst-case} presents an  AVL tree of height 6 where the number of keys is minimal.
+\ref{fig:avl-worst-case} presents an  \textsc{Avl} tree of height 6 where the number of keys is minimal.
 
 
 
 \begin{figure}[!ht]
   \centering
   \framebox{\epsfig{file=Abbildungen/avl}} 
-  \caption{An AVL tree of height 6 that is as slim as possible.}
+  \caption{An \textsc{Avl} tree of height 6 that is as slim as possible. Values are not shown.}
   \label{fig:avl-worst-case}
 \end{figure}
 
 \subsection{Improvements}
 In practice, 
 \href{https://en.wikipedia.org/wiki/Red-black_trees}{red-black trees} \index{red-black tree}
-are slightly faster than \textsc{AVL} trees.  Similar to
-\textsc{AVL} trees, a  red-black tree
+are slightly faster than \textsc{\textsc{Avl}} trees.  Similar to
+\textsc{\textsc{Avl}} trees, a  red-black tree
   is an ordered binary tree that is approximately balanced.  Nodes are either black or red.
 The children of a red node have to be black.  In order to keep red-black trees approximately
 balanced, a \blue{relaxed height} of a tree is defined.  Red nodes do not contribute to the relaxed
@@ -793,7 +820,7 @@ relaxed height.  A detailed and very readable exposition of red-black trees is g
 \href{https://en.wikipedia.org/wiki/Robert_Sedgewick_(computer_scientist)}{Robert Sedgewick} \cite{guibas:78}.
 
 \exercise
-Instead of using AVL trees, another alternative to implement a map is to use 
+Instead of using \textsc{Avl} trees, another alternative to implement a map is to use 
 \href{https://en.wikipedia.org/wiki/2-3_tree}{2-3 trees}.  \index{2-3 tree}
 Below we describe a simplified version of these trees.  These trees do not store any values.  Hence, instead
 of implementing maps, these trees implement sets. They are built using the following constructors:
@@ -1810,29 +1837,6 @@ $\ds s_m = \biggl(\sum\limits_{i=0}^m a_{m - i} \cdot x^{m - i}\biggr) \mmod n =
 This formula is used to implement the function \texttt{hash\_code} efficiently.
 Figure \ref{fig:hash_code.py} shows an implementation of this formula.  We have set 
 $x$ to $128$ here since $128$ is the size of the \textsc{Ascii} alphabet.
-\begin{figure}[!ht]
-\centering
-\begin{minted}[ frame         = lines, 
-                 framesep      = 0.3cm, 
-                 firstnumber   = 1,
-                 bgcolor       = sepia,
-                 numbers       = left,
-                 numbersep     = -0.2cm,
-                 xleftmargin   = 0.8cm,
-                 xrightmargin  = 0.8cm,
-               ]{python3}
-    def hash_code(w, n):
-        m = len(w)
-        s = 0
-        for k in range(m-1, 0, -1):
-            s = (s * 128 + ord(w[k])) % n
-        return s
-\end{minted}
-\vspace*{-0.3cm}
-\caption{An implementation of the function \texttt{hash\_code} in \textsl{Python}.}
-\label{fig:hash_code.py}
-\end{figure}
-
 
 \subsection{Implementing Hash Tables}
 In order to implement a has table we first need to implement three auxiliary classes:
@@ -2372,7 +2376,7 @@ In this section, we have discussed hash tables only briefly.  The reason is that
 important in practice, a thorough treatment requires quite a lot of mathematics, see for example the
 third volume of Donald Knuth's ``The Art of Computer Programming'' \cite{knuth:1998b}.  For this
 reason, the design of a hash function is best left for experts.  In practice, hash tables are
-quite a bit faster than \blue{AVL}-trees or \blue{red-black} trees.  However, this is only true if
+quite a bit faster than \blue{\textsc{Avl}}-trees or \blue{red-black} trees.  However, this is only true if
 the hash function that is used is able to spread the keys uniformly.  If this assumption is
 violated, the use of a hash table can lead to serious performance 
 bugs.  If, instead, a good
